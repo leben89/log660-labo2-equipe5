@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="ca.ets.log660.labo2.model">
+    <class name="Film" table="FILM">
+        <id name="id" column="ID">
+            <generator class="native"/>
+        </id>
+        <property name="titre" column="TITRE" not-null="true"/>
+        <property name="annee" column="ANNEE" not-null="true"/>
+        <property name="langue" column="LANGUE"/>
+        <property name="duree" column="DUREE" not-null="true"/>
+        <property name="resume" column="RESUME" not-null="true"/>
+
+        <set name="genres" table="FILM_GENRE">
+            <key column="FILM_ID"/>
+            <many-to-many class="Genre" column="GENRE_ID"/>
+        </set>
+
+        <set name="paysProduction" table="FILM_PAYS_PRODUCTION">
+            <key column="FILM_ID"/>
+            <many-to-many class="Pays" column="PAYS_ID"/>
+        </set>
+
+        <set name="acteurs" table="FILM_ACTEUR">
+            <key column="FILM_ID"/>
+            <many-to-many class="Personne" column="PERSONNE_ID"/>
+        </set>
+
+        <set name="realisateurs" table="FILM_REALISATEUR">
+            <key column="FILM_ID"/>
+            <many-to-many class="Personne" column="PERSONNE_ID"/>
+        </set>
+
+        <set name="posters" table="FILM_POSTER">
+            <key column="FILM_ID"/>
+            <many-to-many class="Photo" column="PHOTO_ID"/>
+        </set>
+
+        <set name="bandesAnnonces" table="FILM_BANDE_ANNONCE">
+            <key column="FILM_ID"/>
+            <many-to-many class="Video" column="VIDEO_ID"/>
+        </set>
+
+        <set name="produits" inverse="true">
+            <key column="ID_FILM"/>
+            <one-to-many class="FilmProduit"/>
+        </set>
+    </class>
+</hibernate-mapping>

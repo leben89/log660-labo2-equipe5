@@ -1,0 +1,13 @@
+target/
+*.class
+*.war
+
+.idea/
+.vscode/
+.settings/
+.classpath
+.project
+
+*.log
+
+src/main/resources/hibernate.cfg.xml

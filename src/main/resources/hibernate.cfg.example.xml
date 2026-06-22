@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory name="Hibernate">
+        <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+        <property name="hibernate.connection.url">jdbc:oracle:thin:@big-data-3.logti.etsmtl.ca:1521:LOG660</property>
+        <property name="hibernate.connection.username">EQUIPE205</property>
+        <property name="hibernate.connection.password">VOTRE_MOT_DE_PASSE</property>
+        <property name="hibernate.default_schema">EQUIPE205</property>
+
+        <property name="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">validate</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="hibernate.transaction.auto_close_session">false</property>
+
+        <mapping resource="hibernate/Utilisateur.hbm.xml"/>
+        <mapping resource="hibernate/Adresse.hbm.xml"/>
+        <mapping resource="hibernate/CarteCredit.hbm.xml"/>
+        <mapping resource="hibernate/Forfait.hbm.xml"/>
+        <mapping resource="hibernate/ContenuMultimedia.hbm.xml"/>
+        <mapping resource="hibernate/Genre.hbm.xml"/>
+        <mapping resource="hibernate/Pays.hbm.xml"/>
+        <mapping resource="hibernate/Film.hbm.xml"/>
+        <mapping resource="hibernate/FilmProduit.hbm.xml"/>
+        <mapping resource="hibernate/Location.hbm.xml"/>
+    </session-factory>
+</hibernate-configuration>

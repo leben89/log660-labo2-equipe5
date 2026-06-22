@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="ca.ets.log660.labo2.model">
+    <class name="Genre" table="GENRE">
+        <id name="id" column="ID_GENRE">
+            <generator class="native"/>
+        </id>
+        <property name="nomGenre" column="NOM_GENRE" not-null="true"/>
+    </class>
+</hibernate-mapping>

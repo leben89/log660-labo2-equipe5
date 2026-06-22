@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="ca.ets.log660.labo2.model">
+    <class name="Adresse" table="ADRESSE">
+        <id name="id" column="ID_ADRESSE">
+            <generator class="native"/>
+        </id>
+        <property name="numeroCivic" column="NUMERO_CIVIC" not-null="true"/>
+        <property name="ville" column="VILLE" not-null="true"/>
+        <property name="province" column="PROVINCE" not-null="true"/>
+        <property name="codePostal" column="CODE_POSTAL" not-null="true"/>
+    </class>
+</hibernate-mapping>

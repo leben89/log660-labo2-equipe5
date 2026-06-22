@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="ca.ets.log660.labo2.model">
+    <class name="ContenuMultimedia" table="CONTENU_MULTIMEDIA">
+        <id name="id" column="ID_CONTENU">
+            <generator class="assigned"/>
+        </id>
+        <property name="url" column="URL" not-null="true"/>
+
+        <joined-subclass name="Video" table="VIDEO">
+            <key column="ID_VIDEO"/>
+        </joined-subclass>
+
+        <joined-subclass name="Photo" table="PHOTO">
+            <key column="ID_PHOTO"/>
+        </joined-subclass>
+    </class>
+</hibernate-mapping>

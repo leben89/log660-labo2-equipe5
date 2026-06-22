@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="ca.ets.log660.labo2.model">
+    <class name="Utilisateur" table="UTILISATEUR">
+        <id name="id" column="ID">
+            <generator class="native"/>
+        </id>
+        <property name="nom" column="NOM"/>
+        <property name="prenom" column="PRENOM" not-null="true"/>
+        <property name="dateNaissance" column="DATE_NAISSANCE" type="date"/>
+
+        <joined-subclass name="Client" table="CLIENT">
+            <key column="ID_CLIENT"/>
+            <property name="telephone" column="TELEPHONE" not-null="true"/>
+            <property name="courriel" column="COURRIEL" not-null="true"/>
+            <property name="motDePasse" column="MOT_DE_PASSE" not-null="true"/>
+            <many-to-one name="forfait" class="Forfait" column="CODE_FORFAIT" not-null="true"/>
+            <many-to-one name="carteCredit" class="CarteCredit" column="CARTE_ID" not-null="true"/>
+            <many-to-one name="adresse" class="Adresse" column="ADRESSE_ID" not-null="true"/>
+            <set name="locations" inverse="true" cascade="all">
+                <key column="CLIENT_ID"/>
+                <one-to-many class="Location"/>
+            </set>
+        </joined-subclass>
+
+        <joined-subclass name="Personne" table="PERSONNE">
+            <key column="ID_PERSONNE"/>
+            <property name="lieuNaissance" column="LIEU_NAISSANCE"/>
+            <many-to-one name="photo" class="Photo" column="PHOTO_ID"/>
+            <property name="bio" column="BIO" type="materialized_clob"/>
+            <set name="filmsCommeActeur" table="FILM_ACTEUR" inverse="true">
+                <key column="PERSONNE_ID"/>
+                <many-to-many class="Film" column="FILM_ID"/>
+            </set>
+            <set name="filmsCommeRealisateur" table="FILM_REALISATEUR" inverse="true">
+                <key column="PERSONNE_ID"/>
+                <many-to-many class="Film" column="FILM_ID"/>
+            </set>
+        </joined-subclass>
+    </class>
+</hibernate-mapping>

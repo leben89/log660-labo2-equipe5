@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="ca.ets.log660.labo2.model">
+    <class name="FilmProduit" table="FILM_PRODUIT">
+        <id name="id" column="ID">
+            <generator class="assigned"/>
+        </id>
+        <many-to-one name="film" class="Film" column="ID_FILM" not-null="true"/>
+        <property name="copieDispo" column="COPIE_DISPO" not-null="true"/>
+        <property name="statut" column="STATUT" not-null="true"/>
+    </class>
+</hibernate-mapping>
