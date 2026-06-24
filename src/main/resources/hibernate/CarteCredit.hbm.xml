@@ -8,7 +8,9 @@
             <generator class="native"/>
         </id>
         <property name="carteType" column="CARTE_TYPE" not-null="true"/>
-        <property name="numero" column="NUMERO" not-null="true"/>
+        <property name="numero" not-null="true" type="string">
+            <column name="NUMERO" length="1" sql-type="char(1)"/>
+        </property>
         <property name="expDate" column="EXP_DATE" not-null="true"/>
         <property name="cvv" column="CVV" not-null="true"/>
     </class>

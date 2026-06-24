@@ -9,6 +9,8 @@
         </id>
         <many-to-one name="film" class="Film" column="ID_FILM" not-null="true"/>
         <property name="copieDispo" column="COPIE_DISPO" not-null="true"/>
-        <property name="statut" column="STATUT" not-null="true"/>
+        <property name="statut" not-null="true">
+            <column name="STATUT" length="16" sql-type="char(16)"/>
+        </property>
     </class>
 </hibernate-mapping>

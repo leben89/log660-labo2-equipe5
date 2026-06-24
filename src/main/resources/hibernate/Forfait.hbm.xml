@@ -4,10 +4,13 @@
         "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="ca.ets.log660.labo2.model">
     <class name="Forfait" table="FORFAIT">
-        <id name="code" column="FORFAIT_CODE" type="string">
+        <id name="code" type="string">
+            <column name="FORFAIT_CODE" length="1" sql-type="char(1)"/>
             <generator class="assigned"/>
         </id>
-        <property name="cout" column="COUT" not-null="true"/>
+        <property name="cout" not-null="true">
+            <column name="COUT" sql-type="number"/>
+        </property>
         <property name="maxLocations" column="MAX_LOCATIONS" not-null="true"/>
         <property name="dureeMax" column="DUREE_MAX" not-null="true"/>
         <property name="typeForfait" column="TYPE_FORFAIT" not-null="true"/>

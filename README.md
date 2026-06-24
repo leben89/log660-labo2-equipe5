@@ -156,7 +156,7 @@ src/main/resources/hibernate.cfg.xml
 Verifier et adapter les valeurs suivantes:
 
 ```xml
-<property name="hibernate.connection.url">jdbc:oracle:thin:@big-data-3.logti.etsmtl.ca:1521:LOG660</property>
+<property name="hibernate.connection.url">jdbc:oracle:thin:@bdlog660.ens.ad.etsmtl.ca:1521:LOG660</property>
 <property name="hibernate.connection.username">equipe205</property>
 <property name="hibernate.connection.password">VOTRE_MOT_DE_PASSE</property>
 <property name="hibernate.default_schema">EQUIPE205</property>
@@ -174,7 +174,7 @@ Important:
 Avant de tester l'application, verifier que le serveur Oracle est accessible:
 
 ```powershell
-Test-NetConnection big-data-3.logti.etsmtl.ca -Port 1521
+Test-NetConnection bdlog660.ens.ad.etsmtl.ca -Port 1521
 ```
 
 Le resultat attendu est:
@@ -349,7 +349,7 @@ Alors Hibernate n'arrive pas a se connecter a Oracle.
 Verifier:
 
 ```powershell
-Test-NetConnection big-data-3.logti.etsmtl.ca -Port 1521
+Test-NetConnection bdlog660.ens.ad.etsmtl.ca -Port 1521
 ```
 
 Si `TcpTestSucceeded` vaut `False`, le probleme est reseau/VPN.
@@ -415,7 +415,7 @@ Caused by:
 
 ```powershell
 # Tester Oracle
-Test-NetConnection big-data-3.logti.etsmtl.ca -Port 1521
+Test-NetConnection bdlog660.ens.ad.etsmtl.ca -Port 1521
 
 # Compiler le projet
 mvn clean package

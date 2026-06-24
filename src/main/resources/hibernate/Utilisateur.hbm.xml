@@ -16,7 +16,9 @@
             <property name="telephone" column="TELEPHONE" not-null="true"/>
             <property name="courriel" column="COURRIEL" not-null="true"/>
             <property name="motDePasse" column="MOT_DE_PASSE" not-null="true"/>
-            <many-to-one name="forfait" class="Forfait" column="CODE_FORFAIT" not-null="true"/>
+            <many-to-one name="forfait" class="Forfait" not-null="true">
+                <column name="CODE_FORFAIT" length="1" sql-type="char(1)"/>
+            </many-to-one>
             <many-to-one name="carteCredit" class="CarteCredit" column="CARTE_ID" not-null="true"/>
             <many-to-one name="adresse" class="Adresse" column="ADRESSE_ID" not-null="true"/>
             <set name="locations" inverse="true" cascade="all">
