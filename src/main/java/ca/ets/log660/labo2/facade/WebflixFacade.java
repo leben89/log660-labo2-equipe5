@@ -4,6 +4,7 @@ import ca.ets.log660.labo2.model.Client;
 import ca.ets.log660.labo2.model.Film;
 import ca.ets.log660.labo2.model.FilmProduit;
 import ca.ets.log660.labo2.model.Location;
+import ca.ets.log660.labo2.model.Personne;
 import ca.ets.log660.labo2.util.HibernateUtil;
 import org.hibernate.Hibernate;
 import org.hibernate.LockOptions;
@@ -111,6 +112,19 @@ public class WebflixFacade {
             Hibernate.initialize(film.getBandesAnnonces());
             Hibernate.initialize(film.getProduits());
             return film;
+        }
+    }
+
+    public Personne consulterPersonne(Integer personneId) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Personne personne = session.get(Personne.class, personneId);
+            if (personne == null) {
+                return null;
+            }
+            Hibernate.initialize(personne.getPhoto());
+            Hibernate.initialize(personne.getFilmsCommeActeur());
+            Hibernate.initialize(personne.getFilmsCommeRealisateur());
+            return personne;
         }
     }
 

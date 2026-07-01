@@ -37,8 +37,8 @@ public class DetailFilmServlet extends HttpServlet {
         body.append("<p><strong>Duree:</strong> ").append(Html.esc(film.getDuree())).append(" minutes</p>");
         body.append("<p><strong>Genres:</strong> ").append(Html.esc(film.getGenres().stream().map(Genre::getNomGenre).collect(Collectors.joining(", ")))).append("</p>");
         body.append("<p><strong>Pays:</strong> ").append(Html.esc(film.getPaysProduction().stream().map(Pays::getNomPays).collect(Collectors.joining(", ")))).append("</p>");
-        body.append("<p><strong>Realisateurs:</strong> ").append(Html.esc(film.getRealisateurs().stream().map(Personne::getNomComplet).collect(Collectors.joining(", ")))).append("</p>");
-        body.append("<p><strong>Acteurs:</strong> ").append(Html.esc(film.getActeurs().stream().map(Personne::getNomComplet).collect(Collectors.joining(", ")))).append("</p>");
+        body.append("<p><strong>Realisateurs:</strong> ").append(liensPersonnes(film.getRealisateurs())).append("</p>");
+        body.append("<p><strong>Acteurs:</strong> ").append(liensPersonnes(film.getActeurs())).append("</p>");
         body.append("<p><strong>Resume:</strong> ").append(Html.esc(film.getResume())).append("</p>");
 
         if (!film.getBandesAnnonces().isEmpty()) {
@@ -70,6 +70,12 @@ public class DetailFilmServlet extends HttpServlet {
         body.append("</table>");
 
         response.getWriter().write(Html.page("Detail du film", body.toString()));
+    }
+
+    private String liensPersonnes(java.util.Collection<Personne> personnes) {
+        return personnes.stream()
+                .map(p -> "<a href=\"personne?id=" + p.getId() + "\">" + Html.esc(p.getNomComplet()) + "</a>")
+                .collect(Collectors.joining(", "));
     }
 
     private Integer parseId(String id) {

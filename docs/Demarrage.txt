@@ -1,0 +1,3 @@
+$env:JAVA_HOME = "C:\Program Files\Microsoft\jdk-21.0.11.10-hotspot"
+& "$env:USERPROFILE\dev-tools\apache-maven-3.9.16\bin\mvn.cmd" -f "c:\Users\benja\Documents\ETS\E26\LOG660\log660-labo2-equipe5\pom.xml" clean package
+copy "c:\Users\benja\Documents\ETS\E26\LOG660\log660-labo2-equipe5\target\log660-labo2-equipe5.war" "$env:USERPROFILE\dev-tools\apache-tomcat-9.0.119\webapps\" -Force
