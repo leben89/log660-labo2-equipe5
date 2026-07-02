@@ -39,7 +39,7 @@ public class DetailFilmServlet extends HttpServlet {
             if (poster.getUrl() != null) {
                 String urlPoster = Html.normaliserUrlImage(poster.getUrl());
                 body.append("<p><img src=\"").append(Html.esc(urlPoster))
-                        .append("\" alt=\"Affiche\" referrerpolicy=\"no-referrer\" style=\"max-width:200px\"></p>");
+                        .append("\" alt=\"Aucune affiche disponible\" referrerpolicy=\"no-referrer\" style=\"max-width:200px\"></p>");
             }
         }
         body.append("<p><strong>Langue:</strong> ").append(Html.esc(film.getLangue())).append("</p>");

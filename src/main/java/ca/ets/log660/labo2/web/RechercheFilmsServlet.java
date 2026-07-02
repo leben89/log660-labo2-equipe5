@@ -44,17 +44,23 @@ public class RechercheFilmsServlet extends HttpServlet {
             if (requeteRecherche(request)) {
                 List<Film> films = facade.rechercherFilms(criteres);
                 body.append("<h2>Resultats</h2>");
-                body.append("<p>").append(films.size()).append(" film(s) trouve(s).</p>");
-                body.append("<table border=\"1\" cellpadding=\"5\"><tr><th>Titre</th><th>Annee</th><th>Langue</th><th>Action</th></tr>");
-                for (Film film : films) {
-                    body.append("<tr>")
-                            .append("<td>").append(Html.esc(film.getTitre())).append("</td>")
-                            .append("<td>").append(Html.esc(film.getAnnee())).append("</td>")
-                            .append("<td>").append(Html.esc(film.getLangue())).append("</td>")
-                            .append("<td><a href=\"film?id=").append(film.getId()).append("\">Consulter</a></td>")
-                            .append("</tr>");
+                if(films.size() == 0){
+                    body.append("<h3>Aucun film correspondant aux critères insérés</h3>");
                 }
-                body.append("</table>");
+                else{
+                    body.append("<p>").append(films.size()).append(" film(s) trouve(s).</p>");
+                    body.append("<table border=\"1\" cellpadding=\"5\"><tr><th>Titre</th><th>Annee</th><th>Langue</th><th>Action</th></tr>");
+                    for (Film film : films) {
+                        body.append("<tr>")
+                                .append("<td>").append(Html.esc(film.getTitre())).append("</td>")
+                                .append("<td>").append(Html.esc(film.getAnnee())).append("</td>")
+                                .append("<td>").append(Html.esc(film.getLangue())).append("</td>")
+                                .append("<td><a href=\"film?id=").append(film.getId()).append("\">Consulter</a></td>")
+                                .append("</tr>");
+                    }
+                    body.append("</table>");
+                }
+                
             }
         } catch (IllegalArgumentException ex) {
             body.append("<p style=\"color:red\">").append(Html.esc(ex.getMessage())).append("</p>");
