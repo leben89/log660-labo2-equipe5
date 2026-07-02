@@ -6,6 +6,7 @@ import ca.ets.log660.labo2.model.FilmProduit;
 import ca.ets.log660.labo2.model.Genre;
 import ca.ets.log660.labo2.model.Pays;
 import ca.ets.log660.labo2.model.Personne;
+import ca.ets.log660.labo2.model.Photo;
 import ca.ets.log660.labo2.model.Video;
 
 import javax.servlet.annotation.WebServlet;
@@ -33,6 +34,14 @@ public class DetailFilmServlet extends HttpServlet {
 
         StringBuilder body = new StringBuilder();
         body.append("<h1>").append(Html.esc(film.getTitre())).append(" (").append(Html.esc(film.getAnnee())).append(")</h1>");
+
+        for (Photo poster : film.getPosters()) {
+            if (poster.getUrl() != null) {
+                String urlPoster = Html.normaliserUrlImage(poster.getUrl());
+                body.append("<p><img src=\"").append(Html.esc(urlPoster))
+                        .append("\" alt=\"Affiche\" referrerpolicy=\"no-referrer\" style=\"max-width:200px\"></p>");
+            }
+        }
         body.append("<p><strong>Langue:</strong> ").append(Html.esc(film.getLangue())).append("</p>");
         body.append("<p><strong>Duree:</strong> ").append(Html.esc(film.getDuree())).append(" minutes</p>");
         body.append("<p><strong>Genres:</strong> ").append(Html.esc(film.getGenres().stream().map(Genre::getNomGenre).collect(Collectors.joining(", ")))).append("</p>");

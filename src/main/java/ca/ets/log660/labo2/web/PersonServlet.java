@@ -36,7 +36,7 @@ public class PersonServlet extends HttpServlet {
         body.append("<h1>").append(Html.esc(personne.getNomComplet())).append("</h1>");
 
         if (personne.getPhoto() != null && personne.getPhoto().getUrl() != null) {
-            String urlPhoto = normaliserUrlImage(personne.getPhoto().getUrl());
+            String urlPhoto = Html.normaliserUrlImage(personne.getPhoto().getUrl());
             body.append("<p><img src=\"").append(Html.esc(urlPhoto))
                     .append("\" alt=\"Photo\" referrerpolicy=\"no-referrer\" style=\"max-width:200px\"></p>");
             body.append("<p><small>Photo: <a href=\"").append(Html.esc(urlPhoto)).append("\">")
@@ -62,17 +62,6 @@ public class PersonServlet extends HttpServlet {
                 .sorted(Comparator.comparing(Film::getAnnee, Comparator.nullsLast(Comparator.reverseOrder())))
                 .map(f -> "<a href=\"film?id=" + f.getId() + "\">" + Html.esc(f.getTitre()) + " (" + Html.esc(f.getAnnee()) + ")</a>")
                 .collect(Collectors.joining(", "));
-    }
-
-    private String normaliserUrlImage(String url) {
-        if (url == null) {
-            return null;
-        }
-        String u = url.trim().replace("ia.media-imdb.com", "m.media-amazon.com");
-        if (u.startsWith("http://")) {
-            u = "https://" + u.substring("http://".length());
-        }
-        return u.replaceAll("\\._V1.*", "._V1_.jpg");
     }
 
     private String formaterDate(Date date) {

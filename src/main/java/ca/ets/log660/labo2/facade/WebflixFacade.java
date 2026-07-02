@@ -13,6 +13,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,13 +43,13 @@ public class WebflixFacade {
             if (nonVide(criteres.getPays())) {
                 hql.append(" join f.paysProduction p ");
             }
-            if (nonVide(criteres.getGenre())) {
+            if (nonVide(criteres.getGenres())) {
                 hql.append(" join f.genres g ");
             }
-            if (nonVide(criteres.getRealisateur())) {
+            if (criteres.getRealisateurId() != null) {
                 hql.append(" join f.realisateurs r ");
             }
-            if (nonVide(criteres.getActeur())) {
+            if (nonVideIds(criteres.getActeurIds())) {
                 hql.append(" join f.acteurs a ");
             }
 
@@ -67,24 +68,24 @@ public class WebflixFacade {
                 params.put("anneeMax", criteres.getAnneeMax());
             }
             if (nonVide(criteres.getPays())) {
-                hql.append(" and lower(p.nomPays) like :pays ");
-                params.put("pays", like(criteres.getPays()));
+                hql.append(" and lower(p.nomPays) in (:pays) ");
+                params.put("pays", enMinuscules(criteres.getPays()));
             }
-            if (nonVide(criteres.getLangue())) {
-                hql.append(" and lower(f.langue) like :langue ");
-                params.put("langue", like(criteres.getLangue()));
+            if (nonVide(criteres.getLangues())) {
+                hql.append(" and lower(f.langue) in (:langues) ");
+                params.put("langues", enMinuscules(criteres.getLangues()));
             }
-            if (nonVide(criteres.getGenre())) {
-                hql.append(" and lower(g.nomGenre) like :genre ");
-                params.put("genre", like(criteres.getGenre()));
+            if (nonVide(criteres.getGenres())) {
+                hql.append(" and lower(g.nomGenre) in (:genres) ");
+                params.put("genres", enMinuscules(criteres.getGenres()));
             }
-            if (nonVide(criteres.getRealisateur())) {
-                hql.append(" and (lower(r.nom) like :realisateur or lower(r.prenom) like :realisateur) ");
-                params.put("realisateur", like(criteres.getRealisateur()));
+            if (criteres.getRealisateurId() != null) {
+                hql.append(" and r.id = :realisateurId ");
+                params.put("realisateurId", criteres.getRealisateurId());
             }
-            if (nonVide(criteres.getActeur())) {
-                hql.append(" and (lower(a.nom) like :acteur or lower(a.prenom) like :acteur) ");
-                params.put("acteur", like(criteres.getActeur()));
+            if (nonVideIds(criteres.getActeurIds())) {
+                hql.append(" and a.id in (:acteurIds) ");
+                params.put("acteurIds", criteres.getActeurIds());
             }
 
             hql.append(" order by f.titre asc, f.annee desc ");
@@ -180,8 +181,74 @@ public class WebflixFacade {
         return query.uniqueResult();
     }
 
+    public List<String> listerGenres() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery(
+                    "select distinct g.nomGenre from Genre g order by g.nomGenre", String.class).list();
+        }
+    }
+
+    public List<String> listerPays() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery(
+                    "select distinct p.nomPays from Pays p order by p.nomPays", String.class).list();
+        }
+    }
+
+    public List<String> listerLangues() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery(
+                    "select distinct f.langue from Film f where f.langue is not null order by f.langue",
+                    String.class).list();
+        }
+    }
+
+    public Map<Integer, String> listerRealisateurs() {
+        return listerPersonnes("realisateurs");
+    }
+
+    public Map<Integer, String> listerActeurs() {
+        return listerPersonnes("acteurs");
+    }
+
+    /**
+     * Retourne les personnes participant a au moins un film pour la relation
+     * donnee (acteurs ou realisateurs), sous forme id -> nom complet, triees
+     * par nom. Le parametre relation est une constante interne, pas une entree
+     * utilisateur, donc sans risque d'injection.
+     */
+    private Map<Integer, String> listerPersonnes(String relation) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            List<Object[]> lignes = session.createQuery(
+                    "select distinct r.id, r.prenom, r.nom from Film f join f." + relation + " r order by r.nom, r.prenom",
+                    Object[].class).list();
+            Map<Integer, String> personnes = new LinkedHashMap<>();
+            for (Object[] ligne : lignes) {
+                String prenom = ligne[1] == null ? "" : (String) ligne[1];
+                String nom = ligne[2] == null ? "" : (String) ligne[2];
+                personnes.put((Integer) ligne[0], (prenom + " " + nom).trim());
+            }
+            return personnes;
+        }
+    }
+
     private boolean nonVide(String valeur) {
         return valeur != null && !valeur.trim().isEmpty();
+    }
+
+    private boolean nonVide(List<String> valeurs) {
+        return valeurs != null && valeurs.stream().anyMatch(this::nonVide);
+    }
+
+    private boolean nonVideIds(List<Integer> ids) {
+        return ids != null && !ids.isEmpty();
+    }
+
+    private List<String> enMinuscules(List<String> valeurs) {
+        return valeurs.stream()
+                .filter(this::nonVide)
+                .map(v -> v.trim().toLowerCase())
+                .collect(java.util.stream.Collectors.toList());
     }
 
     private String like(String valeur) {

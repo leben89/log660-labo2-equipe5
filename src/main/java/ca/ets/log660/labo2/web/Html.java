@@ -16,6 +16,17 @@ final class Html {
                 .replace("'", "&#39;");
     }
 
+    static String normaliserUrlImage(String url) {
+        if (url == null) {
+            return null;
+        }
+        String u = url.trim().replace("ia.media-imdb.com", "m.media-amazon.com");
+        if (u.startsWith("http://")) {
+            u = "https://" + u.substring("http://".length());
+        }
+        return u.replaceAll("\\._V1.*", "._V1_.jpg");
+    }
+
     static String page(String titre, String body) {
         return "<!doctype html><html lang=\"fr\"><head><meta charset=\"utf-8\">" +
                 "<title>" + esc(titre) + "</title></head><body>" +

@@ -9,7 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @WebServlet("/films")
 public class RechercheFilmsServlet extends HttpServlet {
@@ -53,29 +59,125 @@ public class RechercheFilmsServlet extends HttpServlet {
     }
 
     private String formulaireRecherche(HttpServletRequest request) {
-        return "<form method=\"get\" action=\"films\">" +
-                "<p>Titre: <input name=\"titre\" value=\"" + Html.esc(request.getParameter("titre")) + "\"></p>" +
-                "<p>Annee min: <input name=\"anneeMin\" value=\"" + Html.esc(request.getParameter("anneeMin")) + "\"> " +
-                "Annee max: <input name=\"anneeMax\" value=\"" + Html.esc(request.getParameter("anneeMax")) + "\"></p>" +
-                "<p>Pays de production: <input name=\"pays\" value=\"" + Html.esc(request.getParameter("pays")) + "\"></p>" +
-                "<p>Langue: <input name=\"langue\" value=\"" + Html.esc(request.getParameter("langue")) + "\"></p>" +
-                "<p>Genre: <input name=\"genre\" value=\"" + Html.esc(request.getParameter("genre")) + "\"></p>" +
-                "<p>Realisateur: <input name=\"realisateur\" value=\"" + Html.esc(request.getParameter("realisateur")) + "\"></p>" +
-                "<p>Acteur: <input name=\"acteur\" value=\"" + Html.esc(request.getParameter("acteur")) + "\"></p>" +
-                "<p><button type=\"submit\" name=\"chercher\" value=\"1\">Rechercher</button></p>" +
-                "</form>";
+        StringBuilder f = new StringBuilder();
+        f.append("<form method=\"get\" action=\"films\"><table cellpadding=\"4\">");
+        f.append(ligne("Titre",
+                "<input name=\"titre\" value=\"" + Html.esc(request.getParameter("titre")) + "\">"));
+        f.append(ligne("Annee",
+                "min <input name=\"anneeMin\" size=\"6\" value=\"" + Html.esc(request.getParameter("anneeMin")) + "\"> " +
+                "max <input name=\"anneeMax\" size=\"6\" value=\"" + Html.esc(request.getParameter("anneeMax")) + "\">"));
+        f.append(ligne("Pays de production",
+                casesACocher("pays", facade.listerPays(), valeursSelectionnees(request, "pays"))));
+        f.append(ligne("Langue",
+                casesACocher("langue", facade.listerLangues(), valeursSelectionnees(request, "langue"))));
+        f.append(ligne("Genre",
+                casesACocher("genre", facade.listerGenres(), valeursSelectionnees(request, "genre"))));
+        f.append(ligne("Realisateur",
+                selectPersonne("realisateur", facade.listerRealisateurs(), request.getParameter("realisateur"))));
+        f.append(ligne("Acteur",
+                casesACocherPersonnes("acteur", facade.listerActeurs(), valeursSelectionnees(request, "acteur"))));
+        f.append("</table>");
+        f.append("<p><button type=\"submit\" name=\"chercher\" value=\"1\">Rechercher</button></p>");
+        f.append("</form>");
+        return f.toString();
+    }
+
+    private String ligne(String label, String champ) {
+        return "<tr><td style=\"vertical-align:top;text-align:right;white-space:nowrap;\"><strong>"
+                + Html.esc(label) + ":</strong></td><td>" + champ + "</td></tr>";
+    }
+
+    private String casesACocher(String name, List<String> options, Set<String> selected) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<div style=\"max-height:120px;overflow:auto;border:1px solid #ccc;padding:4px;\">");
+        for (String option : options) {
+            sb.append("<label style=\"display:block;white-space:nowrap;\">")
+                    .append("<input type=\"checkbox\" name=\"").append(name).append("\" value=\"").append(Html.esc(option)).append("\"")
+                    .append(selected.contains(option) ? " checked" : "").append("> ")
+                    .append(Html.esc(option)).append("</label>");
+        }
+        sb.append("</div>");
+        return sb.toString();
+    }
+
+    private String selectPersonne(String name, Map<Integer, String> personnes, String selectedId) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<select name=\"").append(name).append("\">");
+        sb.append("<option value=\"\">-- Tous --</option>");
+        for (Map.Entry<Integer, String> entree : personnes.entrySet()) {
+            String valeur = String.valueOf(entree.getKey());
+            sb.append("<option value=\"").append(valeur).append("\"")
+                    .append(valeur.equals(selectedId) ? " selected" : "").append(">")
+                    .append(Html.esc(entree.getValue())).append("</option>");
+        }
+        sb.append("</select>");
+        return sb.toString();
+    }
+
+    private String casesACocherPersonnes(String name, Map<Integer, String> personnes, Set<String> selectedIds) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<div style=\"max-height:120px;overflow:auto;border:1px solid #ccc;padding:4px;\">");
+        for (Map.Entry<Integer, String> entree : personnes.entrySet()) {
+            String valeur = String.valueOf(entree.getKey());
+            sb.append("<label style=\"display:block;white-space:nowrap;\">")
+                    .append("<input type=\"checkbox\" name=\"").append(name).append("\" value=\"").append(valeur).append("\"")
+                    .append(selectedIds.contains(valeur) ? " checked" : "").append("> ")
+                    .append(Html.esc(entree.getValue())).append("</label>");
+        }
+        sb.append("</div>");
+        return sb.toString();
+    }
+
+    private Set<String> valeursSelectionnees(HttpServletRequest request, String name) {
+        String[] valeurs = request.getParameterValues(name);
+        return valeurs == null ? Collections.emptySet() : new HashSet<>(Arrays.asList(valeurs));
+    }
+
+    private Integer parseIdOuNull(String valeur) {
+        if (valeur == null || valeur.trim().isEmpty()) {
+            return null;
+        }
+        try {
+            return Integer.valueOf(valeur.trim());
+        } catch (NumberFormatException ex) {
+            return null;
+        }
+    }
+
+    private List<String> lireListe(HttpServletRequest request, String name) {
+        String[] valeurs = request.getParameterValues(name);
+        return valeurs == null ? Collections.emptyList() : Arrays.asList(valeurs);
+    }
+
+    private List<Integer> lireListeIds(HttpServletRequest request, String name) {
+        String[] valeurs = request.getParameterValues(name);
+        if (valeurs == null) {
+            return Collections.emptyList();
+        }
+        List<Integer> ids = new ArrayList<>();
+        for (String valeur : valeurs) {
+            Integer id = parseIdOuNull(valeur);
+            if (id != null) {
+                ids.add(id);
+            }
+        }
+        return ids;
     }
 
     private CriteresRechercheFilm lireCriteres(HttpServletRequest request) {
         CriteresRechercheFilm criteres = new CriteresRechercheFilm();
         criteres.setTitre(request.getParameter("titre"));
-        criteres.setPays(request.getParameter("pays"));
-        criteres.setLangue(request.getParameter("langue"));
-        criteres.setGenre(request.getParameter("genre"));
-        criteres.setRealisateur(request.getParameter("realisateur"));
-        criteres.setActeur(request.getParameter("acteur"));
+        criteres.setPays(lireListe(request, "pays"));
+        criteres.setLangues(lireListe(request, "langue"));
+        criteres.setGenres(lireListe(request, "genre"));
+        criteres.setRealisateurId(parseIdOuNull(request.getParameter("realisateur")));
+        criteres.setActeurIds(lireListeIds(request, "acteur"));
         criteres.setAnneeMin(parseAnnee(request.getParameter("anneeMin"), "annee min"));
         criteres.setAnneeMax(parseAnnee(request.getParameter("anneeMax"), "annee max"));
+        if (criteres.getAnneeMin() != null && criteres.getAnneeMax() != null
+                && criteres.getAnneeMax() < criteres.getAnneeMin()) {
+            throw new IllegalArgumentException("L'annee max ne peut pas etre inferieure a l'annee min.");
+        }
         return criteres;
     }
 
