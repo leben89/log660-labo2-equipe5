@@ -94,7 +94,7 @@ public class WebflixFacade {
             for (Map.Entry<String, Object> entry : params.entrySet()) {
                 query.setParameter(entry.getKey(), entry.getValue());
             }
-            query.setMaxResults(100);
+            // query.setMaxResults(100);
             return query.list();
         }
     }
