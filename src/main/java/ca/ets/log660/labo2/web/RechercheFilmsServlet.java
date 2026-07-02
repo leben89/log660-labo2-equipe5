@@ -29,9 +29,14 @@ public class RechercheFilmsServlet extends HttpServlet {
         StringBuilder body = new StringBuilder();
         Object clientNom = request.getSession(false) == null ? null : request.getSession(false).getAttribute("clientNom");
         body.append("<h1>Recherche de films</h1>");
-        if (clientNom != null) {
-            body.append("<p>Client connecte: ").append(Html.esc(clientNom)).append("</p>");
+
+        if (clientNom == null) {
+            response.getWriter().write(Html.page("Connexion requise",
+                    "<h1>Connexion requise</h1><p>Vous devez vous connecter avant de rechercher un film.</p>"));
+            return;
         }
+
+        body.append("<p>Client connecte: ").append(Html.esc(clientNom)).append("</p>");
         body.append(formulaireRecherche(request));
 
         try {
