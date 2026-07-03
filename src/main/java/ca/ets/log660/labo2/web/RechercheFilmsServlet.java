@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.LinkedHashMap;
 
 @WebServlet("/films")
 public class RechercheFilmsServlet extends HttpServlet {
@@ -83,14 +84,53 @@ public class RechercheFilmsServlet extends HttpServlet {
                 casesACocher("langue", facade.listerLangues(), valeursSelectionnees(request, "langue"))));
         f.append(ligne("Genre",
                 casesACocher("genre", facade.listerGenres(), valeursSelectionnees(request, "genre"))));
-        f.append(ligne("Realisateur",
-                selectPersonne("realisateur", facade.listerRealisateurs(), request.getParameter("realisateur"))));
-        f.append(ligne("Acteur",
-                casesACocherPersonnes("acteur", facade.listerActeurs(), valeursSelectionnees(request, "acteur"))));
+        f.append(ligne("Realisateur", rechercheRealisateurs(request)));
+        f.append(ligne("Acteur", rechercheActeurs(request)));
         f.append("</table>");
         f.append("<p><button type=\"submit\" name=\"chercher\" value=\"1\">Rechercher</button></p>");
         f.append("</form>");
         return f.toString();
+    }
+
+    private String rechercheActeurs(HttpServletRequest request){
+        Map<Integer, String> acteurs = facade.listerActeurs();
+        StringBuilder acteursFiltrer = new StringBuilder();
+        acteursFiltrer.append("<input id=\"acteurFilter\" placeholder=\"Nom d'acteur...\" value=\"")
+          .append(Html.esc(request.getParameter("acteurQuery")))
+          .append("\" oninput=\"filterActeurs()\"> ");
+        acteursFiltrer.append("<div id=\"acteurContainer\">");
+        acteursFiltrer.append(casesACocherPersonnes("acteur", acteurs, valeursSelectionnees(request, "acteur")));
+        acteursFiltrer.append("</div>");
+
+        // Script qui va filtrer les acteurs selon ce qui est rentrer dans le input field
+        acteursFiltrer.append("<script>");
+        acteursFiltrer.append("function filterActeurs(){var q=document.getElementById('acteurFilter').value.toLowerCase();"
+        + "var c=document.getElementById('acteurContainer');if(!c)return;var labels=c.getElementsByTagName('label');"
+        + "for(var i=0;i<labels.length;i++){var t=(labels[i].textContent||labels[i].innerText||'').toLowerCase();"
+        + "labels[i].style.display=(t.indexOf(q)!==-1)?'block':'none';}}\n");
+        acteursFiltrer.append("function clearActeurFilter(){document.getElementById('acteurFilter').value='';filterActeurs();}\n");
+        acteursFiltrer.append("document.addEventListener('DOMContentLoaded',filterActeurs);</script>");
+
+        return acteursFiltrer.toString();
+    }
+
+    private String rechercheRealisateurs(HttpServletRequest request) {
+        Map<Integer, String> realisateurs = facade.listerRealisateurs();
+        StringBuilder realisateursFiltrer = new StringBuilder();
+        realisateursFiltrer.append("<input id=\"realisateurFilter\" placeholder=\"Nom de réalisateur...\" oninput=\"filterRealisateurs()\"> ");
+        realisateursFiltrer.append("<div id=\"realisateurContainer\">");
+        realisateursFiltrer.append(selectPersonne("realisateur", realisateurs, request.getParameter("realisateur")));
+        realisateursFiltrer.append("</div>");
+        
+        // Script qui va filtrer les realisateurs selon ce qui est rentrer dans le input field
+        realisateursFiltrer.append("<script>");
+        realisateursFiltrer.append("function filterRealisateurs(){var q=document.getElementById('realisateurFilter').value.toLowerCase();"
+        + "var s=document.querySelector('#realisateurContainer select');if(!s)return;var options=s.options;"
+        + "for(var i=0;i<options.length;i++){var opt=options[i];var text=(opt.text||'').toLowerCase();"
+        + "var visible=text.indexOf(q)!==-1||opt.selected;opt.hidden=!visible;opt.style.display=visible?'block':'none';}}\n");
+        realisateursFiltrer.append("function clearRealisateurFilter(){document.getElementById('realisateurFilter').value='';filterRealisateurs();}\n");
+        realisateursFiltrer.append("document.addEventListener('DOMContentLoaded',filterRealisateurs);</script>");
+        return realisateursFiltrer.toString();
     }
 
     private String ligne(String label, String champ) {
