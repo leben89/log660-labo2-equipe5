@@ -1,11 +1,5 @@
 package ca.ets.log660.labo2.scripts;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
 public class Extract {
 
     public static String formatDate(String rawDate) {
