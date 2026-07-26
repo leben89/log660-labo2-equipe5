@@ -10,6 +10,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.LockOptions;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 
 import java.util.HashMap;
@@ -105,6 +106,8 @@ public class WebflixFacade {
             if (film == null) {
                 return null;
             }
+            film.setCote(coteFilm(session, filmId));
+            Hibernate.initialize(film.getCote());
             Hibernate.initialize(film.getGenres());
             Hibernate.initialize(film.getPaysProduction());
             Hibernate.initialize(film.getActeurs());
@@ -179,6 +182,21 @@ public class WebflixFacade {
                 Long.class);
         query.setParameter("clientId", clientId);
         return query.uniqueResult();
+    }
+
+    private Double coteFilm(Session session, Integer filmId) {
+        NativeQuery query = session.createNativeQuery(
+                "select moyenne_cote from vue_moyenne_cotes_materialized where film_id = :filmId"
+            );
+        query.setParameter("filmId", filmId);
+
+        Object result = query.getSingleResult();
+
+        if (result == null) {
+            return 0.0; // or 0.0 depending on your needs
+        }
+        
+        return ((Number) result).doubleValue();
     }
 
     public List<String> listerGenres() {

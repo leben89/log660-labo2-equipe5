@@ -42,6 +42,7 @@ public class DetailFilmServlet extends HttpServlet {
                         .append("\" alt=\"Aucune affiche disponible\" referrerpolicy=\"no-referrer\" style=\"max-width:200px\"></p>");
             }
         }
+        body.append("<p><strong>Cote moyenne:</strong> ").append(Html.esc(film.getCote())).append("</p>");
         body.append("<p><strong>Langue:</strong> ").append(Html.esc(film.getLangue())).append("</p>");
         body.append("<p><strong>Duree:</strong> ").append(Html.esc(film.getDuree())).append(" minutes</p>");
         body.append("<p><strong>Genres:</strong> ").append(Html.esc(film.getGenres().stream().map(Genre::getNomGenre).collect(Collectors.joining(", ")))).append("</p>");
