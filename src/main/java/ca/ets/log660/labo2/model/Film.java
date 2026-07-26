@@ -11,6 +11,7 @@ public class Film {
     private Integer duree;
     private String resume;
     private Double cote;
+    private Double correlation;
     private Set<Genre> genres = new HashSet<>();
     private Set<Pays> paysProduction = new HashSet<>();
     private Set<Personne> acteurs = new HashSet<>();
@@ -73,6 +74,14 @@ public class Film {
 
     public void setCote(Double cote) {
         this.cote = cote;
+    }
+
+    public Double getCorrelation() {
+        return correlation;
+    }
+
+    public void setCorrelation(Double correlation) {
+        this.correlation = correlation;
     }
 
     public Set<Genre> getGenres() {

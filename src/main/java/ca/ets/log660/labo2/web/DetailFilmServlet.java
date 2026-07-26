@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
+import java.util.List;
+
 @WebServlet("/film")
 public class DetailFilmServlet extends HttpServlet {
     private final WebflixFacade facade = new WebflixFacade();
@@ -31,6 +33,9 @@ public class DetailFilmServlet extends HttpServlet {
             response.getWriter().write(Html.page("Film introuvable", "<h1>Film introuvable</h1>"));
             return;
         }
+        
+        int clientId = (Integer) request.getSession(false).getAttribute("clientId");
+        List<Film> recomm_films = facade.listerRecommendations(clientId, filmId);
 
         StringBuilder body = new StringBuilder();
         body.append("<h1>").append(Html.esc(film.getTitre())).append(" (").append(Html.esc(film.getAnnee())).append(")</h1>");
@@ -58,6 +63,11 @@ public class DetailFilmServlet extends HttpServlet {
             }
             body.append("</ul>");
         }
+
+        body.append("<h2>Recommandation</h2>");
+        body.append("<p><strong>1. </strong> ").append(Html.esc(recomm_films.get(0).getTitre())).append(" avec une corrélation de ").append(Html.esc(recomm_films.get(0).getCorrelation())).append("</p>");
+        body.append("<p><strong>2. </strong> ").append(Html.esc(recomm_films.get(1).getTitre())).append(" avec une corrélation de ").append(Html.esc(recomm_films.get(1).getCorrelation())).append("</p>");
+        body.append("<p><strong>3. </strong> ").append(Html.esc(recomm_films.get(2).getTitre())).append(" avec une corrélation de ").append(Html.esc(recomm_films.get(2).getCorrelation())).append("</p>");
 
         body.append("<h2>Location</h2>");
         body.append("<table border=\"1\" cellpadding=\"5\"><tr><th>Produit</th><th>Copies disponibles</th><th>Statut</th><th>Action</th></tr>");

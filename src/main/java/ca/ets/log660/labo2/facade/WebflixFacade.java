@@ -13,6 +13,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -193,11 +194,49 @@ public class WebflixFacade {
         Object result = query.getSingleResult();
 
         if (result == null) {
-            return 0.0; // or 0.0 depending on your needs
+            return 0.0;
         }
         
         return ((Number) result).doubleValue();
     }
+
+    public List<Film> listerRecommendations(int clientId, int filmId){
+
+        List<Film> recomm_films = new ArrayList<>();
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            
+            NativeQuery query = session.createNativeQuery(
+                    "select v.film_id_k, f1.titre, v.indice_correlation from vue_indice_correlation_materialized v join film f1 on v.film_id_k = f1.id where film_id_j = :filmId and film_id_k in " +
+                    "(select f.id from Film f where f.id != :filmId and f.id not in " +
+                    "(select distinct p.film_produit_id from location_film_produit p, location l where l.id = p.location_id and l.client_id = :clientId)) " +
+                    "order by indice_correlation desc " +
+                    "fetch first 3 rows only"
+                );
+
+            query.setParameter("filmId", filmId);
+            query.setParameter("clientId", clientId);
+
+            List<Object[]> results = query.getResultList();
+
+            for (Object[] result : results) {
+
+                Film film = new Film();
+
+                int film_Id = ((Number) result[0]).intValue();
+                String titre = result[1].toString();
+                double correlation = ((Number) result[2]).doubleValue();
+
+                film.setId(film_Id);
+                film.setTitre(titre);
+                film.setCorrelation(correlation);
+
+                recomm_films.add(film);
+            }
+        }
+
+        return recomm_films;
+    } 
 
     public List<String> listerGenres() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
