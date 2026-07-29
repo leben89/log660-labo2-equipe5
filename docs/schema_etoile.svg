@@ -1,0 +1,199 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100">
+<defs>
+  <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L12,6 L0,12 z" fill="#333"/>
+  </marker>
+  <style>
+    .title{font:700 30px 'DejaVu Sans',Arial,sans-serif;fill:#111}
+    .table-title{font:700 22px 'DejaVu Sans',Arial,sans-serif;fill:#111}
+    .cell{font:18px 'DejaVu Sans',Arial,sans-serif;fill:#111}
+    .key{font:700 18px 'DejaVu Sans',Arial,sans-serif;fill:#111}
+    .small{font:italic 16px 'DejaVu Sans',Arial,sans-serif;fill:#333}
+    .edge-label{font:700 17px 'DejaVu Sans',Arial,sans-serif;fill:#333}
+  </style>
+</defs>
+<rect width="100%" height="100%" fill="white"/>
+<text x="800.0" y="45" text-anchor="middle" class="title">Schéma en étoile - Entrepôt de locations Webflix</text>
+<rect x="40" y="90" width="430" height="404" rx="3" fill="white" stroke="#222" stroke-width="2"/>
+<rect x="40" y="90" width="430" height="44" rx="3" fill="#D9EAF7" stroke="#222" stroke-width="2"/>
+<text x="255.0" y="120" text-anchor="middle" class="table-title">DW_DIM_CLIENT</text>
+<line x1="40" y1="134" x2="470" y2="134" stroke="#555" stroke-width="1"/>
+<line x1="98" y1="134" x2="98" y2="170" stroke="#777" stroke-width="1"/>
+<text x="48" y="158" class="key">PK</text>
+<text x="108" y="158" class="key">CLIENT_KEY</text>
+<line x1="40" y1="170" x2="470" y2="170" stroke="#555" stroke-width="1"/>
+<line x1="98" y1="170" x2="98" y2="206" stroke="#777" stroke-width="1"/>
+<text x="48" y="194" class="key">UK</text>
+<text x="108" y="194" class="cell">CLIENT_ID_SOURCE</text>
+<line x1="40" y1="206" x2="470" y2="206" stroke="#555" stroke-width="1"/>
+<line x1="98" y1="206" x2="98" y2="242" stroke="#777" stroke-width="1"/>
+<text x="48" y="230" class="key"></text>
+<text x="108" y="230" class="cell">NOM_COMPLET</text>
+<line x1="40" y1="242" x2="470" y2="242" stroke="#555" stroke-width="1"/>
+<line x1="98" y1="242" x2="98" y2="278" stroke="#777" stroke-width="1"/>
+<text x="48" y="266" class="key"></text>
+<text x="108" y="266" class="cell">AGE_ANNEES</text>
+<line x1="40" y1="278" x2="470" y2="278" stroke="#555" stroke-width="1"/>
+<line x1="98" y1="278" x2="98" y2="314" stroke="#777" stroke-width="1"/>
+<text x="48" y="302" class="key"></text>
+<text x="108" y="302" class="cell">AGE_MIN_GROUPE</text>
+<line x1="40" y1="314" x2="470" y2="314" stroke="#555" stroke-width="1"/>
+<line x1="98" y1="314" x2="98" y2="350" stroke="#777" stroke-width="1"/>
+<text x="48" y="338" class="key"></text>
+<text x="108" y="338" class="cell">GROUPE_AGE</text>
+<line x1="40" y1="350" x2="470" y2="350" stroke="#555" stroke-width="1"/>
+<line x1="98" y1="350" x2="98" y2="386" stroke="#777" stroke-width="1"/>
+<text x="48" y="374" class="key"></text>
+<text x="108" y="374" class="cell">DATE_PREMIERE_LOCATION</text>
+<line x1="40" y1="386" x2="470" y2="386" stroke="#555" stroke-width="1"/>
+<line x1="98" y1="386" x2="98" y2="422" stroke="#777" stroke-width="1"/>
+<text x="48" y="410" class="key"></text>
+<text x="108" y="410" class="cell">CODE_POSTAL</text>
+<line x1="40" y1="422" x2="470" y2="422" stroke="#555" stroke-width="1"/>
+<line x1="98" y1="422" x2="98" y2="458" stroke="#777" stroke-width="1"/>
+<text x="48" y="446" class="key"></text>
+<text x="108" y="446" class="cell">VILLE</text>
+<line x1="40" y1="458" x2="470" y2="458" stroke="#555" stroke-width="1"/>
+<line x1="98" y1="458" x2="98" y2="494" stroke="#777" stroke-width="1"/>
+<text x="48" y="482" class="key"></text>
+<text x="108" y="482" class="cell">PROVINCE</text>
+<rect x="40" y="650" width="430" height="332" rx="3" fill="white" stroke="#222" stroke-width="2"/>
+<rect x="40" y="650" width="430" height="44" rx="3" fill="#E2F0D9" stroke="#222" stroke-width="2"/>
+<text x="255.0" y="680" text-anchor="middle" class="table-title">DW_DIM_TEMPS</text>
+<line x1="40" y1="694" x2="470" y2="694" stroke="#555" stroke-width="1"/>
+<line x1="98" y1="694" x2="98" y2="730" stroke="#777" stroke-width="1"/>
+<text x="48" y="718" class="key">PK</text>
+<text x="108" y="718" class="key">TEMPS_KEY</text>
+<line x1="40" y1="730" x2="470" y2="730" stroke="#555" stroke-width="1"/>
+<line x1="98" y1="730" x2="98" y2="766" stroke="#777" stroke-width="1"/>
+<text x="48" y="754" class="key"></text>
+<text x="108" y="754" class="cell">DATE_COMPLETE</text>
+<line x1="40" y1="766" x2="470" y2="766" stroke="#555" stroke-width="1"/>
+<line x1="98" y1="766" x2="98" y2="802" stroke="#777" stroke-width="1"/>
+<text x="48" y="790" class="key"></text>
+<text x="108" y="790" class="cell">HEURE (0-23)</text>
+<line x1="40" y1="802" x2="470" y2="802" stroke="#555" stroke-width="1"/>
+<line x1="98" y1="802" x2="98" y2="838" stroke="#777" stroke-width="1"/>
+<text x="48" y="826" class="key"></text>
+<text x="108" y="826" class="cell">JOUR_SEMAINE</text>
+<line x1="40" y1="838" x2="470" y2="838" stroke="#555" stroke-width="1"/>
+<line x1="98" y1="838" x2="98" y2="874" stroke="#777" stroke-width="1"/>
+<text x="48" y="862" class="key"></text>
+<text x="108" y="862" class="cell">NUM_JOUR_SEMAINE</text>
+<line x1="40" y1="874" x2="470" y2="874" stroke="#555" stroke-width="1"/>
+<line x1="98" y1="874" x2="98" y2="910" stroke="#777" stroke-width="1"/>
+<text x="48" y="898" class="key"></text>
+<text x="108" y="898" class="cell">MOIS_ANNEE</text>
+<line x1="40" y1="910" x2="470" y2="910" stroke="#555" stroke-width="1"/>
+<line x1="98" y1="910" x2="98" y2="946" stroke="#777" stroke-width="1"/>
+<text x="48" y="934" class="key"></text>
+<text x="108" y="934" class="cell">NUM_MOIS</text>
+<line x1="40" y1="946" x2="470" y2="946" stroke="#555" stroke-width="1"/>
+<line x1="98" y1="946" x2="98" y2="982" stroke="#777" stroke-width="1"/>
+<text x="48" y="970" class="key"></text>
+<text x="108" y="970" class="cell">ANNEE</text>
+<rect x="560" y="390" width="450" height="296" rx="3" fill="white" stroke="#222" stroke-width="2"/>
+<rect x="560" y="390" width="450" height="44" rx="3" fill="#FFF2CC" stroke="#222" stroke-width="2"/>
+<text x="785.0" y="420" text-anchor="middle" class="table-title">DW_FAIT_LOCATION</text>
+<line x1="560" y1="434" x2="1010" y2="434" stroke="#555" stroke-width="1"/>
+<line x1="618" y1="434" x2="618" y2="476" stroke="#777" stroke-width="1"/>
+<text x="568" y="458" class="key">PK</text>
+<text x="628" y="458" class="key">LOCATION_KEY</text>
+<line x1="560" y1="476" x2="1010" y2="476" stroke="#555" stroke-width="1"/>
+<line x1="618" y1="476" x2="618" y2="518" stroke="#777" stroke-width="1"/>
+<text x="568" y="500" class="key">FK</text>
+<text x="628" y="500" class="key">CLIENT_KEY</text>
+<line x1="560" y1="518" x2="1010" y2="518" stroke="#555" stroke-width="1"/>
+<line x1="618" y1="518" x2="618" y2="560" stroke="#777" stroke-width="1"/>
+<text x="568" y="542" class="key">FK</text>
+<text x="628" y="542" class="key">FILM_KEY</text>
+<line x1="560" y1="560" x2="1010" y2="560" stroke="#555" stroke-width="1"/>
+<line x1="618" y1="560" x2="618" y2="602" stroke="#777" stroke-width="1"/>
+<text x="568" y="584" class="key">FK</text>
+<text x="628" y="584" class="key">TEMPS_KEY</text>
+<line x1="560" y1="602" x2="1010" y2="602" stroke="#555" stroke-width="1"/>
+<line x1="618" y1="602" x2="618" y2="644" stroke="#777" stroke-width="1"/>
+<text x="568" y="626" class="key">M</text>
+<text x="628" y="626" class="cell">NOMBRE_LOCATIONS = 1</text>
+<line x1="560" y1="644" x2="1010" y2="644" stroke="#555" stroke-width="1"/>
+<line x1="618" y1="644" x2="618" y2="686" stroke="#777" stroke-width="1"/>
+<text x="568" y="668" class="key"></text>
+<text x="628" y="668" class="small">Grain : 1 film / client / instant</text>
+<rect x="1080" y="90" width="480" height="214" rx="3" fill="white" stroke="#222" stroke-width="2"/>
+<rect x="1080" y="90" width="480" height="44" rx="3" fill="#FCE4D6" stroke="#222" stroke-width="2"/>
+<text x="1320.0" y="120" text-anchor="middle" class="table-title">DW_DIM_FILM</text>
+<line x1="1080" y1="134" x2="1560" y2="134" stroke="#555" stroke-width="1"/>
+<line x1="1138" y1="134" x2="1138" y2="168" stroke="#777" stroke-width="1"/>
+<text x="1088" y="158" class="key">PK</text>
+<text x="1148" y="158" class="key">FILM_KEY</text>
+<line x1="1080" y1="168" x2="1560" y2="168" stroke="#555" stroke-width="1"/>
+<line x1="1138" y1="168" x2="1138" y2="202" stroke="#777" stroke-width="1"/>
+<text x="1088" y="192" class="key">UK</text>
+<text x="1148" y="192" class="cell">FILM_ID_SOURCE</text>
+<line x1="1080" y1="202" x2="1560" y2="202" stroke="#555" stroke-width="1"/>
+<line x1="1138" y1="202" x2="1138" y2="236" stroke="#777" stroke-width="1"/>
+<text x="1088" y="226" class="key"></text>
+<text x="1148" y="226" class="cell">TITRE_COMPLET</text>
+<line x1="1080" y1="236" x2="1560" y2="236" stroke="#555" stroke-width="1"/>
+<line x1="1138" y1="236" x2="1138" y2="270" stroke="#777" stroke-width="1"/>
+<text x="1088" y="260" class="key"></text>
+<text x="1148" y="260" class="cell">ANNEE_SORTIE</text>
+<line x1="1080" y1="270" x2="1560" y2="270" stroke="#555" stroke-width="1"/>
+<line x1="1138" y1="270" x2="1138" y2="304" stroke="#777" stroke-width="1"/>
+<text x="1088" y="294" class="key"></text>
+<text x="1148" y="294" class="cell">ORIGINE (USA / AUTRE)</text>
+<rect x="1080" y="304" width="480" height="416" fill="white" stroke="#222" stroke-width="2"/>
+<rect x="1080" y="304" width="480" height="42" fill="#F7F7F7" stroke="#222" stroke-width="2"/>
+<text x="1320.0" y="332" text-anchor="middle" class="key">Attributs binaires de genre (0 / 1)</text>
+<line x1="1080" y1="346" x2="1560" y2="346" stroke="#777" stroke-width="1"/>
+<line x1="1320.0" y1="346" x2="1320.0" y2="380" stroke="#999" stroke-width="1"/>
+<text x="1088" y="369" class="cell">GENRE_ACTION</text>
+<text x="1328.0" y="369" class="cell">GENRE_HISTORY</text>
+<line x1="1080" y1="380" x2="1560" y2="380" stroke="#777" stroke-width="1"/>
+<line x1="1320.0" y1="380" x2="1320.0" y2="414" stroke="#999" stroke-width="1"/>
+<text x="1088" y="403" class="cell">GENRE_ADVENTURE</text>
+<text x="1328.0" y="403" class="cell">GENRE_HORROR</text>
+<line x1="1080" y1="414" x2="1560" y2="414" stroke="#777" stroke-width="1"/>
+<line x1="1320.0" y1="414" x2="1320.0" y2="448" stroke="#999" stroke-width="1"/>
+<text x="1088" y="437" class="cell">GENRE_ANIMATION</text>
+<text x="1328.0" y="437" class="cell">GENRE_MUSIC</text>
+<line x1="1080" y1="448" x2="1560" y2="448" stroke="#777" stroke-width="1"/>
+<line x1="1320.0" y1="448" x2="1320.0" y2="482" stroke="#999" stroke-width="1"/>
+<text x="1088" y="471" class="cell">GENRE_BIOGRAPHY</text>
+<text x="1328.0" y="471" class="cell">GENRE_MUSICAL</text>
+<line x1="1080" y1="482" x2="1560" y2="482" stroke="#777" stroke-width="1"/>
+<line x1="1320.0" y1="482" x2="1320.0" y2="516" stroke="#999" stroke-width="1"/>
+<text x="1088" y="505" class="cell">GENRE_COMEDY</text>
+<text x="1328.0" y="505" class="cell">GENRE_MYSTERY</text>
+<line x1="1080" y1="516" x2="1560" y2="516" stroke="#777" stroke-width="1"/>
+<line x1="1320.0" y1="516" x2="1320.0" y2="550" stroke="#999" stroke-width="1"/>
+<text x="1088" y="539" class="cell">GENRE_CRIME</text>
+<text x="1328.0" y="539" class="cell">GENRE_ROMANCE</text>
+<line x1="1080" y1="550" x2="1560" y2="550" stroke="#777" stroke-width="1"/>
+<line x1="1320.0" y1="550" x2="1320.0" y2="584" stroke="#999" stroke-width="1"/>
+<text x="1088" y="573" class="cell">GENRE_DOCUMENTARY</text>
+<text x="1328.0" y="573" class="cell">GENRE_SCI_FI</text>
+<line x1="1080" y1="584" x2="1560" y2="584" stroke="#777" stroke-width="1"/>
+<line x1="1320.0" y1="584" x2="1320.0" y2="618" stroke="#999" stroke-width="1"/>
+<text x="1088" y="607" class="cell">GENRE_DRAMA</text>
+<text x="1328.0" y="607" class="cell">GENRE_SPORT</text>
+<line x1="1080" y1="618" x2="1560" y2="618" stroke="#777" stroke-width="1"/>
+<line x1="1320.0" y1="618" x2="1320.0" y2="652" stroke="#999" stroke-width="1"/>
+<text x="1088" y="641" class="cell">GENRE_FAMILY</text>
+<text x="1328.0" y="641" class="cell">GENRE_THRILLER</text>
+<line x1="1080" y1="652" x2="1560" y2="652" stroke="#777" stroke-width="1"/>
+<line x1="1320.0" y1="652" x2="1320.0" y2="686" stroke="#999" stroke-width="1"/>
+<text x="1088" y="675" class="cell">GENRE_FANTASY</text>
+<text x="1328.0" y="675" class="cell">GENRE_WAR</text>
+<line x1="1080" y1="686" x2="1560" y2="686" stroke="#777" stroke-width="1"/>
+<line x1="1320.0" y1="686" x2="1320.0" y2="720" stroke="#999" stroke-width="1"/>
+<text x="1088" y="709" class="cell">GENRE_FILM_NOIR</text>
+<text x="1328.0" y="709" class="cell">GENRE_WESTERN</text>
+<path d="M 560 497 L 515 497 L 515 130 L 470 130" fill="none" stroke="#333" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="500" y="487" text-anchor="end" class="edge-label">CLIENT_KEY</text>
+<path d="M 560 581 L 510 581 L 510 690 L 470 690" fill="none" stroke="#333" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="500" y="609" text-anchor="end" class="edge-label">TEMPS_KEY</text>
+<path d="M 1010 539 L 1045 539 L 1045 130 L 1080 130" fill="none" stroke="#333" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1028" y="529" text-anchor="end" class="edge-label">FILM_KEY</text>
+<text x="800" y="1065" text-anchor="middle" class="small">PK : clé primaire artificielle - FK : clé étrangère - UK : identifiant de la source opérationnelle - M : mesure additive</text>
+</svg>

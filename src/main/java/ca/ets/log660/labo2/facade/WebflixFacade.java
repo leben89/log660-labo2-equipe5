@@ -238,6 +238,85 @@ public class WebflixFacade {
         return recomm_films;
     } 
 
+
+    /**
+     * Calcule le nombre de locations selon les quatre dimensions demandees
+     * au laboratoire 4. La valeur "Tous" desactive le filtre correspondant.
+     */
+    public long compterLocationsAnalytiques(String groupeAge,
+                                             String province,
+                                             String jourSemaine,
+                                             String moisAnnee) {
+        String groupe = normaliserFiltreAnalytique(groupeAge);
+        String prov = normaliserFiltreAnalytique(province);
+        String jour = normaliserFiltreAnalytique(jourSemaine);
+        String mois = normaliserFiltreAnalytique(moisAnnee);
+
+        String sql = "select coalesce(sum(f.nombre_locations), 0) " +
+                "from dw_fait_location f " +
+                "join dw_dim_client c on c.client_key = f.client_key " +
+                "join dw_dim_temps t on t.temps_key = f.temps_key " +
+                "where (:groupeAge = 'Tous' or c.groupe_age = :groupeAge) " +
+                "and (:province = 'Tous' or c.province = :province) " +
+                "and (:jourSemaine = 'Tous' or t.jour_semaine = :jourSemaine) " +
+                "and (:moisAnnee = 'Tous' or t.mois_annee = :moisAnnee)";
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            NativeQuery<?> query = session.createNativeQuery(sql);
+            query.setParameter("groupeAge", groupe);
+            query.setParameter("province", prov);
+            query.setParameter("jourSemaine", jour);
+            query.setParameter("moisAnnee", mois);
+            Object resultat = query.uniqueResult();
+            return resultat == null ? 0L : ((Number) resultat).longValue();
+        }
+    }
+
+    public List<String> listerGroupesAgeAnalytiques() {
+        return listerValeursAnalytiques(
+                "select groupe_age from dw_dim_client " +
+                "group by groupe_age " +
+                "order by min(age_min_groupe) nulls last");
+    }
+
+    public List<String> listerProvincesAnalytiques() {
+        return listerValeursAnalytiques(
+                "select distinct province from dw_dim_client order by province");
+    }
+
+    public List<String> listerJoursAnalytiques() {
+        return listerValeursAnalytiques(
+                "select jour_semaine from dw_dim_temps " +
+                "group by jour_semaine " +
+                "order by min(num_jour_semaine)");
+    }
+
+    public List<String> listerMoisAnalytiques() {
+        return listerValeursAnalytiques(
+                "select mois_annee from dw_dim_temps " +
+                "group by mois_annee " +
+                "order by min(num_mois)");
+    }
+
+    private List<String> listerValeursAnalytiques(String sql) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            List<?> lignes = session.createNativeQuery(sql).getResultList();
+            List<String> valeurs = new ArrayList<>();
+            for (Object ligne : lignes) {
+                if (ligne != null) {
+                    valeurs.add(ligne.toString());
+                }
+            }
+            return valeurs;
+        }
+    }
+
+    private String normaliserFiltreAnalytique(String valeur) {
+        return valeur == null || valeur.trim().isEmpty()
+                ? "Tous"
+                : valeur.trim();
+    }
+
     public List<String> listerGenres() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery(
